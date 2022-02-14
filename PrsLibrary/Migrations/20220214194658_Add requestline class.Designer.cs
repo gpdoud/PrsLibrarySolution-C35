@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrsLibrary.Models;
 
 namespace PrsLibrary.Migrations
 {
     [DbContext(typeof(PrsDbContext))]
-    partial class PrsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220214194658_Add requestline class")]
+    partial class Addrequestlineclass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
