@@ -17,6 +17,19 @@ namespace PrsLibrary.Controllers {
             this._context = context;
         }
 
+        private void RecalculateRequestTotal(int requestId) {
+            var request = _context.Requests.Find(requestId);
+
+            request.Total = (from rl in _context.Requestlines
+                             join p in _context.Products
+                             on rl.ProductId equals p.Id
+                             where rl.RequestId == requestId
+                             select new {
+                                 LineTotal = rl.Quantity * p.Price
+                             }).Sum(x => x.LineTotal);
+            _context.SaveChanges();
+        }
+
         public IEnumerable<Requestline> GetAll() {
             return _context.Requestlines
                                 .Include(x => x.Product)
@@ -40,11 +53,13 @@ namespace PrsLibrary.Controllers {
             }
             _context.Requestlines.Add(requestline);
             _context.SaveChanges();
+            RecalculateRequestTotal(requestline.RequestId);
             return requestline;
         }
 
         public void Change(Requestline requestline) {
             _context.SaveChanges();
+            RecalculateRequestTotal(requestline.RequestId);
         }
 
         public void Remove(int id) {
@@ -54,6 +69,7 @@ namespace PrsLibrary.Controllers {
             }
             _context.Requestlines.Remove(requestline);
             _context.SaveChanges();
+            RecalculateRequestTotal(requestline.RequestId);
         }
     }
 }

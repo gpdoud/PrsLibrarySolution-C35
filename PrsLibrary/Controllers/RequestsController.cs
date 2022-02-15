@@ -18,6 +18,33 @@ namespace PrsLibrary.Controllers {
             this._context = context;
         }
 
+        public IEnumerable<Request> GetRequestsInReview(int userId) {
+            var requests = _context.Requests
+                                        .Where(x => x.Status == "REVIEW"
+                                                && x.UserId != userId)
+                                        .ToList();
+            return requests;
+        }
+
+        public void SetRejected(Request request) {
+            request.Status = "REJECTED";
+            Change(request);
+        }
+
+        public void SetApproved(Request request) {
+            request.Status = "APPROVED";
+            Change(request);
+        }
+
+        public void SetReview(Request request) {
+            if(request.Total <= 50) {
+                request.Status = "APPROVED";
+            } else {
+                request.Status = "REVIEW";
+            }
+            Change(request);
+        }
+
         public IEnumerable<Request> GetAll() {
             return _context.Requests.Include(x => x.User).ToList();
         }
