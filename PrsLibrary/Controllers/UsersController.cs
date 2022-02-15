@@ -16,6 +16,12 @@ namespace PrsLibrary.Controllers {
             this._context = context;
         }
 
+        public User Login(string username, string password) {
+            return _context.Users
+                        .SingleOrDefault(x => x.Username == username
+                                            && x.Password == password);
+        }
+
         public IEnumerable<User> GetAll() {
             return _context.Users.ToList();
         }

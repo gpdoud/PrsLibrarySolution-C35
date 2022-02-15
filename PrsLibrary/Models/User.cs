@@ -6,10 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PrsLibrary.Models {
-    
     public class User {
 
-        public int Id { get; set; }
+        public int Id { get; set;  }
         [Required, StringLength(30)]
         public string Username { get; set; }
         [Required, StringLength(30)]
@@ -24,7 +23,5 @@ namespace PrsLibrary.Models {
         public string Email { get; set; }
         public bool IsReviewer { get; set; }
         public bool IsAdmin { get; set; }
-
-        public User() { }
     }
 }
